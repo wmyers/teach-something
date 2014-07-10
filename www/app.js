@@ -8,14 +8,22 @@ requirejs.config({
     paths: {
         app: '../app',
         tpl: '../tpl'
+    },
+    map: {
+        '*': {
+            'app/models/question': 'app/models/memory/question'
+        }
     }
 });
 
 //define jquery as a non-global
-define('jquery-private', ['jquery'], function (jq) {
-    return jq.noConflict( true );
-});
+//define('jquery-private', ['jquery'], function (jq) {
+//    return jq.noConflict( true );
+//});
 
-// Start loading the main app file. Put all of
-// your application logic in there.
-requirejs(['app/main']);
+
+//Use route to start application
+require(['jquery', 'backbone', 'app/router'], function ($, Backbone, Router) {
+    var router = new Router();
+    Backbone.history.start();
+});
