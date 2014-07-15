@@ -25,5 +25,12 @@ requirejs.config({
 //Use route to start application
 require(['jquery', 'backbone', 'app/router'], function ($, Backbone, Router) {
     var router = new Router();
+
+    //using a shim to share the router instance in different modules
+    require(['app/shared'], function(shared){
+        shared.router = router;
+    });
+
     Backbone.history.start();
 });
+

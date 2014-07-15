@@ -38,21 +38,19 @@ define(function (require) {
             return deferred.promise();
         },
 
-        findByQCategory = function (searchKey) {
-            var deferred = $.Deferred(),
-                results = questions.filter(function (element) {
-                    var qCategory = element.qCategory;
-                    return qCategory.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
-                });
-            deferred.resolve(results);
-            return deferred.promise();
-        },
+//        findByQCategory = function (searchKey) {
+//            var deferred = $.Deferred(),
+//                results = questions.filter(function (element) {
+//                    var qCategory = element.qCategory;
+//                    return qCategory.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
+//                });
+//            deferred.resolve(results);
+//            return deferred.promise();
+//        },
 
         Question = Backbone.Model.extend({
 
             initialize: function () {
-                this.reports = new ReportsCollection();
-                this.reports.parent = this;
             },
 
             sync: function (method, model, options) {
@@ -77,26 +75,11 @@ define(function (require) {
                 }
             }
 
-        }),
-
-        ReportsCollection = Backbone.Collection.extend({
-
-            model: Question,
-
-            sync: function (method, model, options) {
-                if (method === "read") {
-                    findByQCategory(this.parent.qCategory).done(function (data) {
-                        options.success(data);
-                    });
-                }
-            }
-
         });
 
     return {
         Question: Question,
-        QuestionCollection: QuestionCollection,
-        ReportsCollection: ReportsCollection
+        QuestionCollection: QuestionCollection
     };
 
 });
