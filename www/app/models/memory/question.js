@@ -28,15 +28,15 @@ define(function (require) {
             return deferred.promise();
         },
 
-        findByQText = function (searchKey) {
-            var deferred = $.Deferred(),
-                results = questions.filter(function (element) {
-                    var qText = element.qText;
-                    return qText.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
-                });
-            deferred.resolve(results);
-            return deferred.promise();
-        },
+//        findByQText = function (searchKey) {
+//            var deferred = $.Deferred(),
+//                results = questions.filter(function (element) {
+//                    var qText = element.qText;
+//                    return qText.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
+//                });
+//            deferred.resolve(results);
+//            return deferred.promise();
+//        },
 
 //        findByQCategory = function (searchKey) {
 //            var deferred = $.Deferred(),
@@ -50,15 +50,16 @@ define(function (require) {
 
         Question = Backbone.Model.extend({
 
-            initialize: function () {
-            },
-
             sync: function (method, model, options) {
                 if (method === "read") {
                     findById(parseInt(this.id)).done(function (data) {
                         options.success(data);
                     });
                 }
+            },
+
+            refresh: function(){
+                this.trigger("change", []);
             }
 
         }),
@@ -67,19 +68,47 @@ define(function (require) {
 
             model: Question,
 
-            sync: function (method, model, options) {
-                if (method === "read") {
-                    findByQText(options.data.qText).done(function (data) {
-                        options.success(data);
-                    });
-                }
-            }
+//            add: function(question) {
+//                print("added question="+question.get("id")+" to questionCollection");
+//            }
 
-        });
+// use fetch/sync when adding query groups of models to the collection in one go - e.g. with a search
+//            sync: function (method, model, options) {
+//                if (method === "read") {
+//                    findByQText(options.data.qText).done(function (data) {
+//                        options.success(data);
+//                    });
+//                }
+//            }
+
+        }),
+
+        utils = {
+            isValidQuestionID : function(id) {
+                return (id > 0 && id <= questions.length);
+            },
+            isQuestionIDInCollection : function(id, questionCollection){
+                _.each(questionCollection.models, function (q) {
+                    if(q.id === id){
+                        return true;
+                    }
+                });
+                return false;
+            },
+            getQuestionByIDFromCollection : function(id, questionCollection){
+                _.each(questionCollection.models, function (q) {
+                    if(q.id === id){
+                        return q;
+                    }
+                });
+                return null;
+            }
+        };
 
     return {
         Question: Question,
-        QuestionCollection: QuestionCollection
+        QuestionCollection: QuestionCollection,
+        utils: utils
     };
 
 });
