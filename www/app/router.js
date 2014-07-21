@@ -10,9 +10,11 @@ define(function (require) {
         currentQuestions = new models.QuestionCollection(),
 
         MainView   = require('app/views/main'),
+        QuestionView   = require('app/views/Question'),
         $body = $('body'),
         mainView = new MainView({el: $body, collection:currentQuestions}).render(),
-        $questions = $("#questions", mainView.el);
+        $questions = $("#questions", mainView.el),
+        questionView;
 
 
     return Backbone.Router.extend({
@@ -33,30 +35,31 @@ define(function (require) {
                 var modelsUtils = models.utils;
 
                 if(modelsUtils.isValidQuestionID(id)){
-                    //print("id", id, "is valid");
-                    var question;
-                    
-                    if(!modelsUtils.isQuestionIDInCollection(id, currentQuestions)){
-                        //print("question is NOT in collection");
+                    print("id", id, "is valid");
+                    var question  = modelsUtils.getQuestionByIDFromCollection(id, currentQuestions);
+
+                    if(question === null){
                         question = new models.Question({id: id});
 
                         question.fetch({
                             success: function (data) {
                                 //add to collection
                                 currentQuestions.add(question);
-
-                                var questionView = new QuestionView({model: data, el: $questions});
-                                questionView.render();
                             }
                         }); 
+                    }
+
+                    if(questionView === undefined){
+                        questionView = new QuestionView({model:question, el: $questions});
+                        questionView.render();
                     }else{
-                        //print("question is ALREADY in collection");
-                        question = modelsUtils.getQuestionByIDFromCollection(id, currentQuestions);
-                        question.refresh();
+                        questionView.model.set(question.toJSON());
+                        questionView.delegateEvents();
                     }
                     
                 }else{
-                    history.back();
+                    print("question id", id, "is invalid");
+                    Backbone.history.history.back();
                 }
             });
         }

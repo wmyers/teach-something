@@ -69,7 +69,7 @@ define(function (require) {
             model: Question,
 
 //            add: function(question) {
-//                print("added question="+question.get("id")+" to questionCollection");
+//                print("added question="+question.get("id")+" to qCollection");
 //            }
 
 // use fetch/sync when adding query groups of models to the collection in one go - e.g. with a search
@@ -87,21 +87,29 @@ define(function (require) {
             isValidQuestionID : function(id) {
                 return (id > 0 && id <= questions.length);
             },
-            isQuestionIDInCollection : function(id, questionCollection){
-                _.each(questionCollection.models, function (q) {
-                    if(q.id === id){
-                        return true;
-                    }
-                });
-                return false;
+            isQuestionIDInCollection : function(id, qCollection){
+                var result = false;
+                (function() {
+                    _.each(qCollection.models, function (q) {
+                        if (Number(q.id) === Number(id)) {
+                            result = true;
+                            return;
+                        }
+                    });
+                })();
+                return result;
             },
-            getQuestionByIDFromCollection : function(id, questionCollection){
-                _.each(questionCollection.models, function (q) {
-                    if(q.id === id){
-                        return q;
-                    }
-                });
-                return null;
+            getQuestionByIDFromCollection : function(id, qCollection){
+                var question = null;
+                (function() {
+                    _.each(qCollection.models, function (q) {
+                        if(Number(q.id) === Number(id)){
+                            question = q;
+                            return;
+                        }
+                    });
+                })();
+                return question;
             }
         };
 
