@@ -2,18 +2,17 @@ define(function (require) {
 
     "use strict";
 
-    var $           = require('jquery'),
-        Backbone    = require('backbone'),
-        print       = require('print'),
+    var $                           = require('jquery'),
+        Backbone                    = require('backbone'),
+        print                       = require('print'),
 
-        models      = require('app/models/question'),
-        currentQuestions = new models.QuestionCollection(),
+        model                       = require('app/models/questionModel'),
+        currentQuestions            = new model.QuestionCollection(),
 
-        MainView   = require('app/views/main'),
-        QuestionView   = require('app/views/Question'),
-        $body = $('body'),
-        mainView = new MainView({el: $body, collection:currentQuestions}).render(),
-        $questions = $("#qp-questions", mainView.el),
+        ShellView                   = require('app/views/shellView'),
+        shellView                   = new ShellView({el: $('body'), collection:currentQuestions}).render(),
+
+        $questions                  = $("#qp-questions", shellView.el),
         questionView;
 
 
@@ -25,21 +24,20 @@ define(function (require) {
         },
 
         home: function () {
-            this.showQuestion(1);  //nb: 'this' scope different due to Backbone.router.extend?
+            this.showQuestion(1);
         },
 
         showQuestion: function (id) {
             print("router.showQuestion", id);
-            require(["app/views/Question", "app/models/question"], function (QuestionView, models) {
+            require(["app/views/askQuestionView", "app/models/questionModel"], function (AskQuestionView, model) {
 
-                var modelsUtils = models.utils;
+                var modelUtils = model.utils;
 
-                if(modelsUtils.isValidQuestionID(id)){
-                    print("id", id, "is valid");
-                    var question  = modelsUtils.getQuestionByIDFromCollection(id, currentQuestions);
+                if(modelUtils.isValidQuestionID(id)){
+                    var question  = modelUtils.getQuestionByIDFromCollection(id, currentQuestions);
 
                     if(question === null){
-                        question = new models.Question({id: id});
+                        question = new model.Question({id: id});
 
                         question.fetch({
                             success: function (data) {
@@ -49,7 +47,7 @@ define(function (require) {
                         }); 
                     }
                     if(questionView === undefined){
-                        questionView = new QuestionView({model:question, el: $questions});
+                        questionView = new AskQuestionView({model:question, el: $questions});
                         questionView.render();
                     }else{
                         questionView.model.set(question.toJSON());

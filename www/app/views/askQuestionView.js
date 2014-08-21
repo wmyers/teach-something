@@ -3,13 +3,13 @@
  */
 define(function (require) {
 
-    var $                   = require('jquery'),
-        _                   = require('underscore'),
-        Backbone            = require('backbone'),
-        tpl                 = require('text!tpl/Question.html'),
+    var $                  = require('jquery'),
+        _                  = require('underscore'),
+        Backbone           = require('backbone'),
+        tpl                = require('text!tpl/AskQuestion.html'),
         print              = require('print'),
         shared             = require('app/shared'),
-        models             = require('app/models/question'),
+        models             = require('app/models/questionModel'),
         template = _.template(tpl);
 
     return Backbone.View.extend({

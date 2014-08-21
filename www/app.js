@@ -11,7 +11,7 @@ requirejs.config({
     },
     map: {
         '*': {
-            'app/models/question': 'app/models/memory/question'
+            'app/models/questionModel': 'app/models/memory/questionModel'
         }
     }
 });

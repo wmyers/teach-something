@@ -1,9 +1,43 @@
+html, body{
+    height: 100%;
+}
+
+/* Wrapper for page content to push down footer */
+#wrapper {
+    min-height: 100%;
+    height: 100%;
+    /* Negative indent footer by its height */
+    margin: 0 0 -80px 0;
+    /* Pad bottom by footer height */
+    padding: 0 0 80px 0;
+}
+
+/* Set the fixed height of the footer here */
+.footer {
+    height: 80px;
+}
+
+.footer > .container {
+    padding-top:15px;
+}
+
+.center-container {
+    background-color: #dcdcdc;
+    height:100%;
+    padding-top: 100px;
+}
+
+.center-container > .container{
+    height:100%;
+}
+
 #qp-questions {
-    margin-left: auto;
-    margin-right: auto;
-    width: 522px;
+    margin: 0 auto;
+    width: 512px;
 }
 .qp-question {
     width: 512px;
 }
+
+
 
