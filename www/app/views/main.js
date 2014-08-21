@@ -9,7 +9,7 @@ define(function (require) {
         _                   = require('underscore'),
         Backbone            = require('backbone'),
         models              = require('app/models/question'),
-        tpl                 = require('text!tpl/Main.html'),
+        tpl                 = require('text!tpl/Shell.html'),
         shared              = require('app/shared'),
         print               = require('print'),
 

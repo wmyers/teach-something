@@ -17,10 +17,11 @@ define(function (require) {
         events: function() {
             var ev = {};
             var id = this.model.get('id');
-            var selector = '#question-' + id + " a.next";
-            ev['click ' + selector] = 'next';
-            selector = '#question-' + id + " a.prev";
-            ev['click ' + selector] = 'prev';
+            var q =  '#question-' + id;
+            var next_selector = q + " button.next";
+            var prev_selector = q + " button.prev";
+            ev['click ' + next_selector] = 'nextFunc';
+            ev['click ' + prev_selector] = 'prevFunc';
 
             return ev;
         },
@@ -42,11 +43,11 @@ define(function (require) {
             return this;
         },
 
-        prev: function (){
+        prevFunc: function (){
             shared.router.navigate('questions/'+(Number(this.model.id)-1), true);
         },
 
-        next: function (){
+        nextFunc: function (){
             shared.router.navigate('questions/'+(Number(this.model.id)+1), true);
         }
     });

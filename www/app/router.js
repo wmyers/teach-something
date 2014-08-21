@@ -13,7 +13,7 @@ define(function (require) {
         QuestionView   = require('app/views/Question'),
         $body = $('body'),
         mainView = new MainView({el: $body, collection:currentQuestions}).render(),
-        $questions = $("#questions", mainView.el),
+        $questions = $("#qp-questions", mainView.el),
         questionView;
 
 
@@ -48,7 +48,6 @@ define(function (require) {
                             }
                         }); 
                     }
-
                     if(questionView === undefined){
                         questionView = new QuestionView({model:question, el: $questions});
                         questionView.render();

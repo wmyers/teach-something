@@ -1,6 +1,15 @@
-<div id="question-<%=id%>" class="question">
-    <p><%= qText %></p>
-    <p>(<%= qCategory %>)</p>
-    <input type="text" placeholder=":input"/>
-    <p><a class="prev">Prev Question</a>   <a class="next">Next Question</a></p>
+<div id="question-<%=id%>" class="qp-question">
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix:after">
+            <span class="label label-primary pull-right"><%= qCategory %></span>
+            <h3 class="panel-title"><%= qText %></h3>
+        </div>
+        <div class="panel-body">
+            <p><input type="text" class="form-control" placeholder="Write your answer" required="true" autofocus=""></p>
+            <div class="clearfix:after">
+                <button type="button" class="next btn btn-xs btn-primary pull-right">Next</button>
+                <button type="button" class="prev btn btn-xs btn-primary">Prev</button>
+            </div>
+        </div>
+    </div>
 </div>
